@@ -1,25 +1,54 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import { nanoid } from "nanoid";
+import NotesList from "./components/NotesList";
+import Search from "./components/Search";
+import Header from "./components/Header";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [notes, setNotes] = useState([
+        {
+            id: nanoid(),
+            content: "This is first note",
+            date: "10/04/2023",
+        },
+        { id: nanoid(), content: "This is second note", date: "10/04/2023" },
+        { id: nanoid(), content: "This is third note", date: "10/04/2023" },
+        { id: nanoid(), content: "This is fourth note", date: "10/04/2023" },
+    ]);
+    const [searchText, setSearchText] = useState("");
+    const [darkMode, setDarkMode] = useState(false);
+
+    const addNote = (content) => {
+        const date = new Date();
+        const newNote = {
+            id: nanoid(),
+            content: content,
+            date: date.toLocaleDateString(),
+        };
+        const newNotes = [...notes, newNote];
+        setNotes(newNotes);
+    };
+
+    const deleteNote = (id) => {
+        const newNotes = notes.filter((note) => note.id !== id);
+        setNotes(newNotes);
+    };
+
+    return (
+        <div className={`${darkMode && 'dark-mode'}`}>
+            <div className="container">
+                <Header darkModeToggleHandler={setDarkMode} />
+                <Search searchNoteHandler={setSearchText} />
+                <NotesList
+                    notes={notes.filter((note) =>
+                        note.content.toLowerCase().includes(searchText)
+                    )}
+                    addNoteHandler={addNote}
+                    deleteNoteHandler={deleteNote}
+                />
+            </div>
+        </div>
+    );
 }
 
 export default App;
