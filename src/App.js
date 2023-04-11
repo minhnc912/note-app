@@ -5,17 +5,7 @@ import Search from "./components/Search";
 import Header from "./components/Header";
 
 function App() {
-    const [notes, setNotes] = useState([
-        {
-            id: nanoid(),
-            content: "This is first note",
-            date: "10/04/2023",
-        },
-        { id: nanoid(), content: "This is second note", date: "10/04/2023" },
-        { id: nanoid(), content: "This is third note", date: "10/04/2023" },
-        { id: nanoid(), content: "This is fourth note", date: "10/04/2023" },
-    ]);
-
+    const [notes, setNotes] = useState([]);
     useEffect(() => {
         const savedNotes = JSON.parse(localStorage.getItem("notes-app-data"));
 
